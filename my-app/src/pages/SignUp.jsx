@@ -133,7 +133,7 @@ export default function SignUp() {
             </select>
           </div>
 
-          <Link to="/logIn">
+          <Link to="/signIn">
             <button
               className="bg-gray-800 text-white py-1 px-2 rounded-full block border border-black w-[306px] h-[59.5px] font-sans absolute top-[113%] hover:bg-gray-600"
               onChange={handleRegister}

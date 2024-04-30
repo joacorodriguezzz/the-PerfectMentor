@@ -1,18 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  faUsers,
-  faChartBar,
-  faFileAlt,
-  faUser,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import miImagen from "../components/img/thePerfectMentor.png";
 
 import SideBar from "../components/SideBar";
 
-export default function Users() {
+export default function Reports() {
+  const [users, setUsers] = useState([]);
+
+  // Simular la obtención de los usuarios (puedes reemplazar esto con una llamada a una API)
+  useEffect(() => {
+    // Simulación de datos de usuarios
+    const sampleUsers = [
+      {
+        name: "John Doe",
+        age: 30,
+        email: "john.doe@example.com",
+        role: "Mentor",
+        status: "Check it",
+      },
+      {
+        name: "Jane Doe",
+        email: "jane.doe@example.com",
+        role: "Mentee",
+        status: "No answer",
+        age: 18,
+      },
+      {
+        name: "Joaquin Rodriguez",
+        email: "joaco.doe@example.com",
+        role: "Mentee",
+        status: "No answer",
+        age: 30,
+      },
+      // Agrega más usuarios aquí
+    ];
+
+    // Establecer los usuarios en el estado
+    setUsers(sampleUsers);
+  }, []);
   return (
     <div className="flex bg-customGreen h-screen">
       {/* Side bar */}
@@ -53,72 +79,65 @@ export default function Users() {
           </div>
 
           {/* Users table */}
-          <div className="bg-white mx-8 my-8 p-8 rounded-3xl h-[80%] shadow-2xl overflow-auto">
-            <table className="w-full">
-              <thead>
-                <tr>
-                  <th className="px-4 py-6 border-b border-gray-500">Name</th>
-                  <th className="px-4 py-6 border-b border-gray-500">Age</th>
-                  <th className="px-4 py-6 border-b border-gray-500">Email</th>
-                  <th className="px-4 py-6 border-b border-gray-500">Role</th>
-                  <th className="px-4 py-6 border-b border-gray-500">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Aquí puedes mapear los usuarios y mostrarlos en filas de la tabla */}
-                <tr className="border-b border-gray-500 shadow-sm">
-                  <td className="px-4 py-6">John Doe</td>
-                  <td className="px-4 py-6">30</td>
-                  <td className="px-4 py-6">john.doe@example.com</td>
-                  <td className="px-4 py-6">Admin</td>
-                  <td className="px-4 py-6">Active</td>
-                </tr>
-                {/* Filas adicionales */}
-                <tr className="border-b border-gray-500 shadow-sm">
-                  <td className="px-4 py-3">Jane Doe</td>
-                  <td className="px-4 py-6">25</td>
-                  <td className="px-4 py-6">jane.doe@example.com</td>
-                  <td className="px-4 py-6">User</td>
-                  <td className="px-4 py-6">Inactive</td>
-                </tr>
-                <tr className="border-b border-gray-500 shadow-sm">
-                  <td className="px-4 py-3">Jane Doe</td>
-                  <td className="px-4 py-6">25</td>
-                  <td className="px-4 py-6">jane.doe@example.com</td>
-                  <td className="px-4 py-6">User</td>
-                  <td className="px-4 py-6">Inactive</td>
-                </tr>
-                <tr className="border-b border-gray-500 shadow-sm">
-                  <td className="px-4 py-3">Jane Doe</td>
-                  <td className="px-4 py-6">25</td>
-                  <td className="px-4 py-6">jane.doe@example.com</td>
-                  <td className="px-4 py-6">User</td>
-                  <td className="px-4 py-6">Inactive</td>
-                </tr>
-                <tr className="border-b border-gray-500 shadow-sm">
-                  <td className="px-4 py-3">Jane Doe</td>
-                  <td className="px-4 py-6">25</td>
-                  <td className="px-4 py-6">jane.doe@example.com</td>
-                  <td className="px-4 py-6">User</td>
-                  <td className="px-4 py-6">Inactive</td>
-                </tr>
-                <tr className="border-b border-gray-500 shadow-sm">
-                  <td className="px-4 py-3">Jane Doe</td>
-                  <td className="px-4 py-6">25</td>
-                  <td className="px-4 py-6">jane.doe@example.com</td>
-                  <td className="px-4 py-6">User</td>
-                  <td className="px-4 py-6">Inactive</td>
-                </tr>
-                <tr className="border-b border-gray-500 shadow-sm">
-                  <td className="px-4 py-3">Jane Doe</td>
-                  <td className="px-4 py-6">25</td>
-                  <td className="px-4 py-6">jane.doe@example.com</td>
-                  <td className="px-4 py-6">User</td>
-                  <td className="px-4 py-6">Inactive</td>
-                </tr>
-                {/* Repite este bloque de <tr> para cada usuario */}
-              </tbody>
-            </table>
+          <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl overflow-auto">
+            <div className="shadow-2xl">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-gray-400 text-sm">
+                    <th className="px-4 py-6 border-b border-gray-500">Name</th>
+                    <th className="px-4 py-6 border-b border-gray-500">Age</th>
+                    <th className="px-4 py-6 border-b border-gray-500">
+                      Email
+                    </th>
+                    <th className="px-4 py-6 border-b border-gray-500">Role</th>
+                    <th className="px-4 py-6 border-b border-gray-500">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user, index) => (
+                    <tr
+                      key={index}
+                      className={`${
+                        user.status === "Check it"
+                          ? "bg-green-200"
+                          : "bg-pink-200"
+                      } bg-opacity-80 border-b border-white shadow-sm`}
+                    >
+                      <td className="px-4 py-6 text-center">{user.name}</td>
+                      <td className="px-4 py-6 text-center">{user.age}</td>
+                      <td className="px-4 py-6 text-center">{user.email}</td>
+                      <td className="px-4 py-6 text-center">{user.role}</td>
+                      <td className="px-4 py-6 text-center">
+                        <div
+                          className={`rounded-full ${
+                            user.status === "Check it"
+                              ? "bg-green-300"
+                              : "bg-pink-300"
+                          } flex items-center justify-center px-1 py-0.5 min-w-max`}
+                        >
+                          <div
+                            className={`h-2 w-2 rounded-full ${
+                              user.status === "Check it"
+                                ? "bg-green-700"
+                                : "bg-pink-700"
+                            } mr-1`}
+                          ></div>
+                          <span
+                            className={`text-${
+                              user.status === "Check it" ? "green" : "pink"
+                            }-700`}
+                          >
+                            {user.status}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-const { string } = require("joi");
+const { string, required } = require("joi");
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
@@ -19,7 +19,15 @@ const userSchema = mongoose.Schema({
     required: false,
     minlength: 6,
   },
+  age: {
+    type: Integer,
+    required: false,
+  },
   role: {
+    type: String,
+    required: false,
+  },
+  profileImg: {
     type: String,
     required: false,
   },

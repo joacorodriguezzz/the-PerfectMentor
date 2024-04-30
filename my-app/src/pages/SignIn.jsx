@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import miImagen from "../components/img/thePerfectMentor.png";
-import logo from "../components/img/logo.png";
 import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -54,7 +53,7 @@ export default function SignIn() {
           </div>
 
           {/* Botón Log In */}
-          <Link to="/logIn">
+          <Link to="/users">
             <button className="bg-gray-800 text-white py-1 px-2 rounded-full block border border-black w-[306px] h-[59.5px] font-sans absolute top-[113%] hover:bg-gray-600">
               Sign In
             </button>

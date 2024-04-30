@@ -7,7 +7,7 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/SignIn";
 import Users from "./pages/Users";
 import Profile from "./pages/Profile";
-import Statistics from "./pages/Statistics";
+import Stadistics from "./pages/Statistics";
 import Reports from "./pages/Reports";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Route path="/signIn" element={<LogIn />} />
 
           <Route path="/profile" element={<Profile />} />
-          <Route path="/statistics" element={<Statistics />} />
+          <Route path="/statistics" element={<Stadistics />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/users" element={<Users />} />
         </Routes>

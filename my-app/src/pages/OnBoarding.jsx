@@ -2,7 +2,7 @@ import React from "react";
 import miImagen from "../components/img/thePerfectMentor.png";
 import { Link } from "react-router-dom";
 
-function OnBoarding() {
+export default function OnBoarding() {
   return (
     <div className="bg-customGreen min-h-screen flex justify-center items-center relative font-sans">
       {/* Div con bordes negros en el centro */}
@@ -24,7 +24,7 @@ function OnBoarding() {
           </Link>
 
           {/* Botón Log In */}
-          <Link to="/logIn">
+          <Link to="/signIn">
             <button className="bg-customGreen text-white py-2 px-4 rounded-full block border border-black w-[360px] h-[50px] font-sans">
               Log In
             </button>
@@ -66,5 +66,3 @@ function OnBoarding() {
     </div>
   );
 }
-
-export default OnBoarding;
