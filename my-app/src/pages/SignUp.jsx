@@ -133,14 +133,12 @@ export default function SignUp() {
             </select>
           </div>
 
-          <Link to="/signIn">
-            <button
-              className="bg-gray-800 text-white py-1 px-2 rounded-full block border border-black w-[306px] h-[59.5px] font-sans absolute top-[113%] hover:bg-gray-600"
-              onChange={handleRegister}
-            >
-              Sign Up
-            </button>
-          </Link>
+          <button
+            className="bg-gray-800 text-white py-1 px-2 rounded-full block border border-black w-[306px] h-[59.5px] font-sans absolute top-[113%] hover:bg-gray-600"
+            onClick={handleRegister}
+          >
+            Sign Up
+          </button>
 
           {/* Enlaces adicionales */}
           <div className="flex justify-between  text-sm absolute top-[100%] hover:underline">

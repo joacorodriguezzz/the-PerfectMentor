@@ -1,11 +1,49 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import miImagen from "../components/img/thePerfectMentor.png";
 import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { setUser } from "../srcState/reducerUser";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function SignIn() {
-  // Iconos
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = () => {
+    axios
+      .post("http://localhost:3001/api/user/signIn", {
+        email: email,
+        password: password,
+      })
+      .then((data) => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          const token = data.data;
+          localStorage.setItem("token", token.data.token);
+          localStorage.setItem("email", email);
+          dispatch(setUser({ email: email }));
+          alert("Usuario logueado correctamente");
+          navigate("/users");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   const userIcon = <FontAwesomeIcon icon={faUser} />;
   const emailIcon = <FontAwesomeIcon icon={faEnvelope} />;
   const passwordIcon = <FontAwesomeIcon icon={faLock} />;
@@ -38,6 +76,7 @@ export default function SignIn() {
               type="email"
               className="rounded-full bg-customGreen py-1 px-2 pl-9 block w-[306px] h-[59.5px] border border-gray-800 placeholder-gray-800"
               placeholder="Email"
+              onChange={handleEmailChange}
             />
           </div>
 
@@ -49,12 +88,16 @@ export default function SignIn() {
               type="password"
               className="rounded-full bg-customGreen py-1 px-2 pl-9 block w-[306px] h-[59.5px] border border-gray-800 placeholder-gray-800 "
               placeholder="Password"
+              onChange={handlePasswordChange}
             />
           </div>
 
           {/* Botón Log In */}
           <Link to="/users">
-            <button className="bg-gray-800 text-white py-1 px-2 rounded-full block border border-black w-[306px] h-[59.5px] font-sans absolute top-[113%] hover:bg-gray-600">
+            <button
+              className="bg-gray-800 text-white py-1 px-2 rounded-full block border border-black w-[306px] h-[59.5px] font-sans absolute top-[113%] hover:bg-gray-600"
+              onClick={handleLogin}
+            >
               Sign In
             </button>
           </Link>

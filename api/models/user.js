@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     minlength: 6,
   },
   age: {
-    type: Integer,
+    type: Number,
     required: false,
   },
   role: {
