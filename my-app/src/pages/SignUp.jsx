@@ -36,12 +36,16 @@ export default function SignUp() {
 
   const handleRegister = () => {
     axios
-      .post("http://localhost:3001/api/user/signUp", {
-        userName: userName,
-        role: role,
-        email: email,
-        password: password,
-      })
+      .post(
+        "http://localhost:3001/api/user/signUp",
+        {
+          userName: userName,
+          role: role,
+          email: email,
+          password: password,
+        },
+        { withCredentials: true }
+      )
       .then((response) => {
         if (response.data.error) {
           alert(response.data.error);

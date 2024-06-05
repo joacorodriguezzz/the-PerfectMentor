@@ -1,4 +1,3 @@
-const { string, required } = require("joi");
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
@@ -31,6 +30,23 @@ const userSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  language: {
+    type: String,
+    required: false,
+  },
+  country: {
+    type: String,
+    required: false,
+  },
+});
+
+// Middleware para establecer createdAt antes de guardar
+userSchema.pre("save", function (next) {
+  const now = new Date();
+  if (!this.createdAt) {
+    this.createdAt = now;
+  }
+  next();
 });
 
 module.exports = mongoose.model("User", userSchema);

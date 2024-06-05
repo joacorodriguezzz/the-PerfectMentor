@@ -4,10 +4,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 router.post("/signUp", async (req, res) => {
-  // console.log(req.body);
   const email = req.body.email;
   const isEmailExist = await User.findOne({ email: req.body.email });
-  const re = /\S+@\S+\.\S+/; //que no sea en blanco, busca @, que no sea en blanco, busca . y que no sea en blanco
+  const re = /\S+@\S+\.\S+/;
 
   if (!re.test(email)) {
     return res.status(400).json({ error: "Email no válido" });
@@ -17,7 +16,6 @@ router.post("/signUp", async (req, res) => {
     return res.status(400).json({ error: "Email ya registrado" });
   }
 
-  // hash contraseña
   const salt = await bcrypt.genSalt(10);
   const password = await bcrypt.hash(req.body.password, salt);
 
@@ -30,7 +28,16 @@ router.post("/signUp", async (req, res) => {
 
   try {
     const savedUser = await user.save();
-    res.json({
+    const token = jwt.sign(
+      {
+        name: savedUser.name,
+        id: savedUser._id,
+      },
+      "secreto",
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("authToken", token, { httpOnly: true }).json({
       error: null,
       data: savedUser,
     });
@@ -40,28 +47,39 @@ router.post("/signUp", async (req, res) => {
 });
 
 router.post("/signIn", async (req, res) => {
-  // console.log(User);
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).json({ error: "Usuario no encontrado" });
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(400).json({ error: "Usuario no encontrado" });
+    }
 
-  const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword)
-    return res.status(400).json({ error: "contraseña no válida" });
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword) {
+      return res.status(400).json({ error: "Contraseña no válida" });
+    }
 
-  // crear token
-  const token = jwt.sign(
-    {
-      name: user.name,
-      id: user._id,
-    },
-    "secreto"
-  );
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+        userName: user.userName,
+        email: user.email,
+      },
+      "secreto",
+      {
+        expiresIn: "1h",
+      }
+    );
 
-  console.log(token);
-  res.header("auth-token", token).json({
-    error: null,
-    data: { token },
-  });
+    res.cookie("authToken", token);
+    res.status(200).json({ error: null, data: { token } });
+  } catch (error) {
+    console.error("Error al intentar iniciar sesión:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
 });
 
 module.exports = router;

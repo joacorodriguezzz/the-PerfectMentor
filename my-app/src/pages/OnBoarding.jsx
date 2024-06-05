@@ -26,7 +26,7 @@ export default function OnBoarding() {
           {/* Botón Log In */}
           <Link to="/signIn">
             <button className="bg-customGreen text-white py-2 px-4 rounded-full block border border-black w-[360px] h-[50px] font-sans">
-              Log In
+              Sign In
             </button>
           </Link>
         </div>
