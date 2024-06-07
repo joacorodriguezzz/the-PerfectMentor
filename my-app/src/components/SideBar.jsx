@@ -78,12 +78,6 @@ export default function SideBar() {
             Stadistics
           </li>
         </Link>
-        <Link to="/reports">
-          <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
-            <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
-            Reports
-          </li>
-        </Link>
         <Link to="/profile">
           <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
             <FontAwesomeIcon icon={faIdBadge} className="mr-2" />
@@ -96,28 +90,28 @@ export default function SideBar() {
             <Link to="/infoMent">
               <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
                 <FontAwesomeIcon icon={faCircleInfo} className="mr-2" />
-                Info Ment
+                Mentor info
               </li>
             </Link>
             <Link to="/achievements">
               <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
                 <FontAwesomeIcon icon={faFontAwesome} className="mr-2" />
-                Logros
+                Achievments
               </li>
             </Link>
             <Link to="/goals">
               <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
                 <FontAwesomeIcon icon={faBullseye} className="mr-2" />
-                Objetivos
+                Goals
               </li>
             </Link>
           </>
         )}
         {userRole === "mentor" && (
-          <Link to="/mentees">
+          <Link to="/menteesList">
             <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
               <FontAwesomeIcon icon={faSitemap} className="mr-2" />
-              Lista de Mentees
+              Mentees List
             </li>
           </Link>
         )}

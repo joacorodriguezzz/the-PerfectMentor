@@ -31,6 +31,27 @@ router.get("/api/users", async (req, res) => {
   }
 });
 
+router.post("/", verifyToken, async (req, res) => {
+  try {
+    const { menteeId } = req.body;
+    const mentorId = req.user.id; // ID del mentor desde el token
+
+    const mentor = await User.findById(mentorId);
+    if (!mentor || mentor.role !== "mentor") {
+      return res.status(403).json({ error: "Acceso denegado" });
+    }
+
+    // Agregar el mentee a la lista de mentees del mentor
+    mentor.mentees.push(menteeId);
+    await mentor.save();
+
+    res.status(200).json({ message: "Mentee agregado exitosamente" });
+  } catch (error) {
+    console.error("Error al agregar mentee:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
 // router.get("/me", async (req, res) => {});
 //req.cookies consigo cookie con verify con user.id
 

@@ -465,6 +465,27 @@ export default function Profile() {
                     <option value="mentor">Mentor</option>
                     <option value="mentee">Mentee</option>
                   </select>
+                  <p className="text-lg font-semibold mb-2 pl-4 text-gray-400">
+                    Your Skill
+                  </p>
+                  <select
+                    name="skill"
+                    className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                    onChange={handleInputChange}
+                    value={user.skill}
+                  >
+                    <option value="" disabled hidden>
+                      Select Skill
+                    </option>
+                    <option value="front">Frontend web developer</option>
+                    <option value="back">Backend web developer</option>
+                    <option value="fullstack">Full-stack web developer</option>
+                    <option value="mobile">Mobile application developer</option>
+                    <option value="desktop">Desktop software developer</option>
+                    <option value="bigData">
+                      Data Scientist (Big Data Developer)
+                    </option>
+                  </select>
                 </div>
               </div>
               <hr className="border-gray-400 mb-2" />

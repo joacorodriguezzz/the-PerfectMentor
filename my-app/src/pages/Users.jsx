@@ -6,17 +6,19 @@ import {
   faFileAlt,
   faUser,
   faSearch,
+  faPersonCirclePlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideBar from "../components/SideBar";
 import axios from "axios";
+import { useAuth } from "../components/AuthContext";
+import Cookies from "js-cookie";
 
 // Importar el contexto de autenticación
 import { AuthContext } from "../components/AuthContext";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -33,6 +35,54 @@ export default function Users() {
     fetchUsers();
   }, []);
 
+  const { user, setUser } = useAuth();
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const token = Cookies.get("authToken"); // Obtener el token de las cookies
+      if (token) {
+        try {
+          const response = await axios.post(
+            "http://localhost:3001/api/userData",
+            {}, // No se necesita un cuerpo para la solicitud
+            {
+              withCredentials: true, // Incluir credenciales en la solicitud
+              headers: {
+                Authorization: `Bearer ${token}`, // Incluir el token en los encabezados
+              },
+            }
+          );
+          console.log("Role response:", response.data.role); // Verificar la respuesta del servidor
+          setUserRole(response.data.role);
+        } catch (error) {
+          console.error("Error al obtener el rol del usuario:", error);
+        }
+      }
+    };
+
+    fetchUserRole();
+  }, [user]);
+
+  const handleAddMentee = async (menteeId) => {
+    const token = Cookies.get("authToken");
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/users",
+        { menteeId },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error al agregar mentee:", error);
+    }
+  };
+
   return (
     <div className="flex bg-customGreen h-screen w-screen">
       <SideBar />
@@ -43,11 +93,6 @@ export default function Users() {
               Users
               <p className="text-base text">View all the users</p>
             </h1>
-            {user && user.role === "Mentor" && (
-              <button className="ml-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                Add Mentee
-              </button>
-            )}
           </div>
           <div className="flex items-center mb-6 shadow-sm">
             {/* Search bar */}
@@ -64,7 +109,7 @@ export default function Users() {
                     </th>
                     <th className="px-4 py-6 border-b border-gray-500">Role</th>
                     <th className="px-4 py-6 border-b border-gray-500">
-                      Status
+                      Match
                     </th>
                   </tr>
                 </thead>
@@ -73,9 +118,7 @@ export default function Users() {
                     <tr
                       key={index}
                       className={`${
-                        user.status === "Active"
-                          ? "bg-green-200"
-                          : "bg-pink-200"
+                        user.role === "mentee" ? "bg-green-200" : "bg-pink-200"
                       } bg-opacity-80 border-b border-white shadow-sm`}
                     >
                       <td className="px-4 py-6 text-center">{user.userName}</td>
@@ -83,28 +126,17 @@ export default function Users() {
                       <td className="px-4 py-6 text-center">{user.email}</td>
                       <td className="px-4 py-6 text-center">{user.role}</td>
                       <td className="px-4 py-6 text-center">
-                        <div
-                          className={`rounded-full ${
-                            user.status === "Active"
-                              ? "bg-green-300"
-                              : "bg-pink-300"
-                          } flex items-center justify-center px-1 py-0.5 min-w-max`}
-                        >
-                          <div
-                            className={`h-2 w-2 rounded-full ${
-                              user.status === "Active"
-                                ? "bg-green-700"
-                                : "bg-pink-700"
-                            } mr-1`}
-                          ></div>
-                          <span
-                            className={`text-${
-                              user.status === "Active" ? "green" : "pink"
-                            }-700`}
+                        {user.role === "mentee" && (
+                          <button
+                            className="w-7 h-7 rounded-full border-2 border-gray-800"
+                            onClick={() => handleAddMentee(user._id)}
                           >
-                            {user.status}
-                          </span>
-                        </div>
+                            <FontAwesomeIcon
+                              icon={faPersonCirclePlus}
+                              className="text-gray-700"
+                            />
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -116,22 +148,4 @@ export default function Users() {
       </div>
     </div>
   );
-}
-
-{
-  /* <div className="absolute bottom-[75%] left-[60%] mt-16 mr-4 h-44 w-44 transform scale-x-[-1]">
-              {" "}
-              <img
-                src="https://s3-alpha-sig.figma.com/img/ab4f/00b4/5a447ab3464c1fb8fe0e6c2ae265c2a7?Expires=1714953600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EH-5OvOKE6ZJAOXkX9qb0k0xe1L5uNDv3-By54Ra4GCl2SNG6Xzgr3G2LWxw8N--aw2ulISSRpA2~StZ4RyOw3z7jr88Nsk-Vg8eRKq8jpGQi30sw2M0wYN~U886sZOuuHkFYiYwySXKwUtYns4l4sdcTptpmr9UvxDcWpUt6smxnmof7LerH49iPCizYUHG6h5ADfRYIF7X0UHU928snz0n-AVkMw78v5~~F682f2z3qjatgL9qFialP6odU89oBc0FwXFqdfiLpJWVGpnkxK9Yq6GmSQb~Q2yuB8GX5oyJUddEXu4vRiOqzi3VmZ7Br8x-oJop0hOsDUGDegBqXg__"
-                alt="ruloDiag"
-                style={{ filter: "grayscale(100%)" }}
-              />
-            </div>
-            <div className="absolute top-0 left-[75%] mt-16 mr-4 h-64 w-64">
-              {" "}
-              <img
-                src="https://s3-alpha-sig.figma.com/img/7f53/b3c5/7afb6e81e8e2f3fb0adce00afb7428a2?Expires=1714953600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=HnR4LAYRiNZP2aGNY4B84JEtrL4IYGqqTGcGn-gkmFlNJaMJYPVUxOIpzg8RwnCDtxic-YUSjeVPbb74l4dEsKHaihSAwQes6Rl4vnJY7Xo5z9CUQ5pain6M8gmkbwnPm5Z2X9EXM2axSmJuuGFpj23iDdq33tzAV8opOyjL1eCWP0vKxdYnEDAYj~pMMj6NJeTKWFgCQEpEifyxOIjxVb8IqKaHq-KF2Ny1zEmFazpH8Xs0CDUfwkqxrxOTlpkVz2GIkWTlTm-sKJlCko~S16AsH8cDTElIeV5vT3wbfNq6Jc8ENhUq8fp5XrS0px7P35vq6JYpq2Nu~EASWdYFTQ__"
-                alt="ruloVert"
-                style={{ filter: "grayscale(100%)" }}
-              /> */
 }

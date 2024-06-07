@@ -8,8 +8,9 @@ import LogIn from "./pages/SignIn";
 import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 import Stadistics from "./pages/Statistics";
-import Reports from "./pages/Reports";
+import MenteesList from "./pages/MenteesList";
 import { AuthProvider } from "./components/AuthContext";
+
 import SideBar from "./components/SideBar";
 
 function App() {
@@ -21,11 +22,13 @@ function App() {
             <Route path="/" element={<OnBoarding />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/signIn" element={<LogIn />} />
-
             <Route path="/profile" element={<Profile />} />
             <Route path="/statistics" element={<Stadistics />} />
-            <Route path="/reports" element={<Reports />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/menteesList" element={<MenteesList />} />
+            <Route path="/infoMent" element={<Users />} />
+            <Route path="/achievememts" element={<Users />} />
+            <Route path="/goals" element={<Users />} />
           </Routes>
         </AuthProvider>
       </Router>

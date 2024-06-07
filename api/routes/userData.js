@@ -57,6 +57,20 @@ router.post("/", verifyToken, (req, res) => {
   };
   res.json(user);
 });
+
+router.get("/mentees", verifyToken, async (req, res) => {
+  try {
+    const mentorId = req.user.id; // Obtener el ID del mentor autenticado desde el token
+    const mentor = await User.findById(mentorId).populate("mentees");
+    if (!mentor || mentor.role !== "mentor") {
+      return res.status(404).json({ error: "Mentor no encontrado" });
+    }
+    res.json(mentor.mentees);
+  } catch (error) {
+    console.error("Error fetching mentees:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
 // router.put("/", upload.single("profileImg"), async (req, res) => {
 //   try {
 //     const userId = req.user.id; // Asegúrate de que la autenticación está configurada y user está en req

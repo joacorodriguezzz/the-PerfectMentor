@@ -38,6 +38,12 @@ const userSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  skill: {
+    type: String,
+    required: false,
+  },
+  mentees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  mentorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Solo para mentees
 });
 
 // Middleware para establecer createdAt antes de guardar
