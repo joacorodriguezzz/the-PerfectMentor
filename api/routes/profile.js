@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const userId = User && User.userId;
+
 // Ruta para obtener la información de un usuario específico
 router.get("/", async (req, res) => {
   try {

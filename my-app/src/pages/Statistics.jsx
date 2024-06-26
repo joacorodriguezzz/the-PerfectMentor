@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import SideBar from "../components/SideBar";
 import axios from "axios";
+import Chart from "../components/StatisticsChart";
 
 export default function Statistics() {
   const [users, setUsers] = useState([]);
@@ -40,20 +41,20 @@ export default function Statistics() {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    const fetchRecentUsersCount = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3001/recentUsersCount"
-        );
-        setRecentUsersCount(response.data.count);
-      } catch (error) {
-        console.error("Error fetching recent users count:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchRecentUsersCount = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://localhost:3001/recentUsersCount"
+  //       );
+  //       setRecentUsersCount(response.data.count);
+  //     } catch (error) {
+  //       console.error("Error fetching recent users count:", error);
+  //     }
+  //   };
 
-    fetchRecentUsersCount();
-  }, []);
+  //   fetchRecentUsersCount();
+  // }, []);
 
   return (
     <div className="flex bg-customGreen h-screen">
@@ -101,6 +102,7 @@ export default function Statistics() {
               </div>
             </div>
           </div>
+          <Chart />
         </div>
       </div>
     </div>

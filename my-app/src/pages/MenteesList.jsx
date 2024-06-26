@@ -12,6 +12,7 @@ import SideBar from "../components/SideBar";
 import axios from "axios";
 import { AuthContext } from "../components/AuthContext";
 import Cookies from "js-cookie";
+import SearchBar from "../components/SearchBar";
 
 export default function MenteesList() {
   const [mentees, setMentees] = useState([]);
@@ -54,6 +55,7 @@ export default function MenteesList() {
           </div>
           <div className="flex items-center mb-6 shadow-sm">
             {/* Search bar */}
+            <SearchBar />
           </div>
           <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl overflow-auto">
             <div className="shadow-2xl">
@@ -65,7 +67,9 @@ export default function MenteesList() {
                     <th className="px-4 py-6 border-b border-gray-500">
                       Email
                     </th>
-                    <th className="px-4 py-6 border-b border-gray-500">Note</th>
+                    <th className="px-4 py-6 border-b border-gray-500">
+                      Skill
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

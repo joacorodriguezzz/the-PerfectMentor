@@ -34,7 +34,7 @@ router.post("/signUp", async (req, res) => {
         id: savedUser._id,
       },
       "secreto",
-      { expiresIn: "1h" }
+      { expiresIn: "3h" }
     );
 
     res.cookie("authToken", token, { httpOnly: true }).json({

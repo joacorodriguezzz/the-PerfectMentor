@@ -9,6 +9,8 @@ import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 import Stadistics from "./pages/Statistics";
 import MenteesList from "./pages/MenteesList";
+import MenteeDashboard from "./pages/MenteeDashboard";
+import GoalsPage from "./pages/Goals";
 import { AuthProvider } from "./components/AuthContext";
 
 import SideBar from "./components/SideBar";
@@ -27,8 +29,8 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/menteesList" element={<MenteesList />} />
             <Route path="/infoMent" element={<Users />} />
-            <Route path="/achievememts" element={<Users />} />
-            <Route path="/goals" element={<Users />} />
+            <Route path="/menteeDashboard" element={<MenteeDashboard />} />
+            <Route path="/goals" element={<GoalsPage />} />
           </Routes>
         </AuthProvider>
       </Router>

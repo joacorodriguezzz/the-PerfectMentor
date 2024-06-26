@@ -42,6 +42,14 @@ const userSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  profession: {
+    type: String,
+    required: false,
+  },
+  descripcion: {
+    type: String,
+    required: false,
+  },
   mentees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   mentorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Solo para mentees
 });

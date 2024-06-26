@@ -4,7 +4,10 @@ const bodyparser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const profileRoutes = require("./routes/profile");
-const recentUsersRouter = require("./routes/recentUsers");
+const mentorshipRoutes = require("./routes/mentorshipRoutes");
+// const mentorshipRequestRouter = require("./routes/mentorshipRequest");
+
+// const recentUsersRouter = require("./routes/recentUsers");
 const userData = require("./routes/userData");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -30,7 +33,8 @@ app.use("/api/user", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/userData", userData);
-app.use("/api/recentUsersCount", recentUsersRouter);
+app.use("/api/mentorship", mentorshipRoutes);
+// app.use("/api/recentUsersCount", recentUsersRouter);
 
 // Conexión a la base de datos
 const uri = `mongodb+srv://joacorodriguez:joacorodriguez@cluster0.sjzxkmd.mongodb.net/?retryWrites=true&w=majority`;

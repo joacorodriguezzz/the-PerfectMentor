@@ -93,10 +93,10 @@ export default function SideBar() {
                 Mentor info
               </li>
             </Link>
-            <Link to="/achievements">
+            <Link to="/menteeDashboard">
               <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
                 <FontAwesomeIcon icon={faFontAwesome} className="mr-2" />
-                Achievments
+                Mentees Dashboard
               </li>
             </Link>
             <Link to="/goals">
