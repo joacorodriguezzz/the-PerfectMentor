@@ -26,10 +26,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: false,
   },
-  profileImg: {
-    type: String,
-    required: false,
-  },
+  profileImg: { type: String, required: false },
   language: {
     type: String,
     required: false,
@@ -42,23 +39,22 @@ const userSchema = mongoose.Schema({
     type: String,
     required: false,
   },
-  profession: {
-    type: String,
-    required: false,
-  },
-  descripcion: {
+  notes: {
     type: String,
     required: false,
   },
   mentees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   mentorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Solo para mentees
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Middleware para establecer createdAt antes de guardar
 userSchema.pre("save", function (next) {
-  const now = new Date();
   if (!this.createdAt) {
-    this.createdAt = now;
+    this.createdAt = new Date();
   }
   next();
 });

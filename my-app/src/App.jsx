@@ -8,12 +8,11 @@ import LogIn from "./pages/SignIn";
 import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 import Stadistics from "./pages/Statistics";
-import MenteesList from "./pages/MenteesList";
+import MentorDashboard from "./pages/MentorDashboard";
 import MenteeDashboard from "./pages/MenteeDashboard";
 import GoalsPage from "./pages/Goals";
+import MentorInfo from "./pages/InfoMent";
 import { AuthProvider } from "./components/AuthContext";
-
-import SideBar from "./components/SideBar";
 
 function App() {
   return (
@@ -27,8 +26,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/statistics" element={<Stadistics />} />
             <Route path="/users" element={<Users />} />
-            <Route path="/menteesList" element={<MenteesList />} />
-            <Route path="/infoMent" element={<Users />} />
+            <Route path="/mentorDashboard" element={<MentorDashboard />} />
+            <Route path="/infoMent" element={<MentorInfo />} />
             <Route path="/menteeDashboard" element={<MenteeDashboard />} />
             <Route path="/goals" element={<GoalsPage />} />
           </Routes>

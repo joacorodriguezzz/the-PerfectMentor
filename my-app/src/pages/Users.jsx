@@ -1,3 +1,5 @@
+// Users.jsx
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SideBar from "../components/SideBar";
@@ -5,9 +7,10 @@ import SearchBar from "../components/SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
-export default function Users() {
+const Users = ({ mentorId }) => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loggedUser, setLoggedUser] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -16,6 +19,14 @@ export default function Users() {
           withCredentials: true,
         });
         setUsers(response.data);
+
+        const loggedUserResponse = await axios.get(
+          "http://localhost:3001/api/userData",
+          {
+            withCredentials: true,
+          }
+        );
+        setLoggedUser(loggedUserResponse.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -23,6 +34,27 @@ export default function Users() {
 
     fetchUsers();
   }, []);
+
+  const sendMatchRequest = async (mentorId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/matchRequest",
+        { menteeId: mentorId }, // Usando mentorId como menteeId para enviar la solicitud
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Match request sent successfully:", response.data);
+      alert("Match request sent successfully");
+      // Actualización del estado u otras operaciones después de enviar la solicitud
+    } catch (error) {
+      console.error("Error sending match request:", error);
+      // Manejo de errores
+    }
+  };
 
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -37,8 +69,7 @@ export default function Users() {
             <h1 className="text-3xl font-bold">Users</h1>
             <p className="text-base ml-2 text-gray-500">View all the users</p>
           </div>
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />{" "}
-          {/* Pasa setSearchTerm como prop */}
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl overflow-auto">
             <table className="w-full">
               <thead>
@@ -47,7 +78,7 @@ export default function Users() {
                   <th className="px-4 py-3 border-b border-gray-500">Age</th>
                   <th className="px-4 py-3 border-b border-gray-500">Email</th>
                   <th className="px-4 py-3 border-b border-gray-500">Role</th>
-                  <th className="px-4 py-3 border-b border-gray-500">Action</th>
+                  <th className="px-4 py-3 border-b border-gray-500">Skill</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,18 +93,21 @@ export default function Users() {
                     <td className="px-4 py-3 text-center">{user.age}</td>
                     <td className="px-4 py-3 text-center">{user.email}</td>
                     <td className="px-4 py-3 text-center">{user.role}</td>
+                    <td className="px-4 py-3 text-center">{user.skill}</td>
                     <td className="px-4 py-3 text-center">
-                      {user.role === "mentee" && (
-                        <button
-                          className="w-7 h-7 rounded-full border-2 border-gray-800"
-                          // onClick={() => sendMentorshipRequest(user._id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faPersonCirclePlus}
-                            className="text-gray-700"
-                          />
-                        </button>
-                      )}
+                      {loggedUser &&
+                        loggedUser.role === "mentor" &&
+                        user.role === "mentee" && (
+                          <button
+                            className="w-7 h-7 rounded-full border-2 border-gray-800"
+                            onClick={() => sendMatchRequest(user._id)} // Aquí se pasa el user._id como mentorId
+                          >
+                            <FontAwesomeIcon
+                              icon={faPersonCirclePlus}
+                              className="text-gray-700"
+                            />
+                          </button>
+                        )}
                     </td>
                   </tr>
                 ))}
@@ -84,4 +118,6 @@ export default function Users() {
       </div>
     </div>
   );
-}
+};
+
+export default Users;

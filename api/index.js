@@ -4,7 +4,8 @@ const bodyparser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const profileRoutes = require("./routes/profile");
-const mentorshipRoutes = require("./routes/mentorshipRoutes");
+const matchRoutes = require("./routes/matchRoutes");
+const meetingRoutes = require("./routes/meetings");
 // const mentorshipRequestRouter = require("./routes/mentorshipRequest");
 
 // const recentUsersRouter = require("./routes/recentUsers");
@@ -33,7 +34,8 @@ app.use("/api/user", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/userData", userData);
-app.use("/api/mentorship", mentorshipRoutes);
+app.use("/api/matchRequest", matchRoutes);
+app.use("/api/meetings", meetingRoutes);
 // app.use("/api/recentUsersCount", recentUsersRouter);
 
 // Conexión a la base de datos

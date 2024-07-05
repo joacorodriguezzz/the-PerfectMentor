@@ -87,12 +87,6 @@ export default function SideBar() {
         {/* Mostrar opciones adicionales según el rol del usuario */}
         {userRole === "mentee" && (
           <>
-            <Link to="/infoMent">
-              <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
-                <FontAwesomeIcon icon={faCircleInfo} className="mr-2" />
-                Mentor info
-              </li>
-            </Link>
             <Link to="/menteeDashboard">
               <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
                 <FontAwesomeIcon icon={faFontAwesome} className="mr-2" />
@@ -108,10 +102,10 @@ export default function SideBar() {
           </>
         )}
         {userRole === "mentor" && (
-          <Link to="/menteesList">
+          <Link to="/mentorDashboard">
             <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
               <FontAwesomeIcon icon={faSitemap} className="mr-2" />
-              Mentees List
+              Mentor Dashboard
             </li>
           </Link>
         )}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import GoalItem from "../components/Goals";
+import SideBar from "../components/SideBar";
 
 export default function GoalsPage() {
   const [goals, setGoals] = useState([]);
@@ -60,6 +61,7 @@ export default function GoalsPage() {
   return (
     <div className="goals-page">
       <h1>My Goals</h1>
+      <SideBar />
       <div className="add-goal">
         <input
           type="text"

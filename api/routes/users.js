@@ -52,30 +52,117 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
-// router.get("/me", async (req, res) => {});
-//req.cookies consigo cookie con verify con user.id
+router.get("/registrations-by-day", async (req, res) => {
+  try {
+    console.log("Fetching registrations by day...");
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: { $dayOfWeek: "$createdAt" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
 
-// Ruta protegida para obtener los datos del perfil del usuario
+    console.log("Aggregated users by day:", users);
 
-// Ruta para obtener el número total de mentees
+    // Convertir el resultado a un formato de array de 7 días (dom a sáb)
+    const registrationsByDay = Array(7).fill(0);
+    users.forEach((user) => {
+      registrationsByDay[user._id - 1] = user.count; // MongoDB $dayOfWeek devuelve 1 para domingo, 2 para lunes, etc.
+    });
 
-// router.get("/api/recentUsers", async (req, res) => {
-//   try {
-//     // Obtener la fecha de hace 24 horas
-//     const yesterday = moment().subtract(1, "days");
-//     console.log("Yesterday:", yesterday); // Imprimir la fecha de hace 24 horas
+    console.log("Registrations by day array:", registrationsByDay);
 
-//     // Consultar la base de datos para obtener los usuarios creados en las últimas 24 horas
-//     const recentUsers = await User.find({
-//       createdAt: { $gte: yesterday },
-//     });
+    res.status(200).json(registrationsByDay);
+  } catch (error) {
+    console.error("Error fetching registrations by day:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-//     res.json(recentUsers);
-//   } catch (error) {
-//     console.error("Error fetching recent users:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
-// Exporta el enrutador para usarlo en tu aplicación Express
+router.get("/recent-users", async (req, res) => {
+  try {
+    const now = new Date();
+    const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 horas atrás
+
+    const recentUsers = await User.find({ createdAt: { $gte: yesterday } });
+    res.json(recentUsers);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching recent users", error });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    console.log("Fetching user with ID:", userId);
+
+    const user = await User.findById(userId);
+    console.log("User data:", user);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    res.send(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).send(error);
+  }
+});
+
+router.get("/:mentorId", async (req, res) => {
+  const { mentorId } = req.params;
+
+  try {
+    console.log(`Fetching mentor with ID: ${mentorId}`);
+
+    // Verifica si el mentor existe
+    const mentor = await User.findById(mentorId);
+    if (!mentor) {
+      console.log(`Mentor with ID ${mentorId} not found`);
+      return res.status(404).json({ error: "Mentor not found" });
+    }
+
+    console.log(`Mentor found: ${mentor}`);
+
+    res.json(mentor);
+  } catch (error) {
+    console.error("Error fetching mentor data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Ruta para obtener la lista de mentees que han aceptado el match con el mentor
+router.get("/:mentorId/mentees", async (req, res) => {
+  const { mentorId } = req.params;
+
+  try {
+    console.log(`Fetching mentor with ID: ${mentorId}`);
+
+    // Verifica si el mentor existe
+    const mentor = await User.findById(mentorId);
+    if (!mentor) {
+      console.log(`Mentor with ID ${mentorId} not found`);
+      return res.status(404).json({ error: "Mentor not found" });
+    }
+
+    console.log(`Mentor found: ${mentor}`);
+
+    // Obtiene los mentees del mentor basado en el array de IDs
+    const mentees = await User.find({ _id: { $in: mentor.mentees } });
+
+    console.log(`Mentees found for mentor ${mentorId}: ${mentees}`);
+
+    res.json(mentees);
+  } catch (error) {
+    console.error("Error fetching mentees data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 module.exports = router;

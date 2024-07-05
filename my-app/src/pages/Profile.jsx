@@ -67,6 +67,7 @@ export default function Profile() {
           </h1>
           <div className="bg-white mx-auto mt-24 p-8 rounded-3xl h-[85%] shadow-2xl overflow-auto w-1/2 pt-[15%]">
             <div>
+              <img></img>
               <div className="flex justify-between">
                 <div>
                   <p className="text-lg mb-2 pl-4 text-gray-400">Your name</p>
@@ -121,15 +122,25 @@ export default function Profile() {
                     onChange={handleInputChange}
                     value={user.skill}
                   >
-                    <option value="" disabled hidden>
+                    <option value="" disabled>
                       Select Skill
                     </option>
-                    <option value="front">Frontend web developer</option>
-                    <option value="back">Backend web developer</option>
-                    <option value="fullstack">Full-stack web developer</option>
-                    <option value="mobile">Mobile application developer</option>
-                    <option value="desktop">Desktop software developer</option>
-                    <option value="bigData">
+                    <option value="Frontend Web Dev">
+                      Frontend web developer
+                    </option>
+                    <option value="Backend Web Dev">
+                      Backend web developer
+                    </option>
+                    <option value="Fullstack Web Dev">
+                      Full-stack web developer
+                    </option>
+                    <option value="Mobile App Dev">
+                      Mobile application developer
+                    </option>
+                    <option value="Desktop Softw Dev">
+                      Desktop software developer
+                    </option>
+                    <option value="Big Data Dev">
                       Data Scientist (Big Data Developer)
                     </option>
                   </select>
@@ -167,11 +178,11 @@ export default function Profile() {
                     <option value="" disabled hidden>
                       Select Country
                     </option>
-                    <option value="argentina">Argentina</option>
-                    <option value="españa">España</option>
-                    <option value="colombia">Colombia</option>
-                    <option value="mexico">Mexico</option>
-                    <option value="estadosUnidos">Estados Unidos</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="España">España</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Estados Unidos">Estados Unidos</option>
                   </select>
                 </div>
               </div>
@@ -190,9 +201,9 @@ export default function Profile() {
                     <option value="" disabled hidden>
                       Select Language
                     </option>
-                    <option value="español">Español</option>
-                    <option value="ingles">Ingles</option>
-                    <option value="portugues">Portugues</option>
+                    <option value="Español">Español</option>
+                    <option value="Ingles">Ingles</option>
+                    <option value="Portugues">Portugues</option>
                   </select>
                 </div>
               </div>

@@ -3,7 +3,7 @@ const router = express.Router();
 const verifyToken = require("../middlewares/verifyToken");
 const User = require("../models/user");
 const multer = require("multer");
-// const Request = require("../models/request");
+const path = require("path");
 
 // Ruta protegida para obtener los datos del perfil del usuario
 //req.cookies consigo cookie con verify con user.id
@@ -84,40 +84,57 @@ router.get("/mentees", verifyToken, async (req, res) => {
   }
 });
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "uploads/"); // Carpeta donde se guardarán las imágenes
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, Date.now() + "-" + file.originalname);
-//   },
-// });
+// Configuración de multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Carpeta donde se guardarán los archivos
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
 
-// const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
-// Ruta para actualizar el perfil del usuario
-router.put("/update/:userId", async (req, res) => {
-  const userId = req.params.userId;
-  const updatedUserData = req.body;
+router.put(
+  "/update/:userId",
+  upload.single("profileImage"),
+  async (req, res) => {
+    const userId = req.params.userId;
+    const updatedUserData = req.body;
 
-  console.log("User ID:", userId);
-  console.log("Update Data:", req.body);
-  try {
-    // Busca y actualiza el usuario por ID
-    const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, {
-      new: true,
-    });
+    console.log("User ID:", userId);
+    console.log("Update Data:", req.body);
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+    if (req.file) {
+      // Si hay un archivo cargado, agrega la ruta al objeto de datos del usuario actualizado
+      updatedUserData.profileImage = req.file.path;
     }
 
-    res.status(200).json(updatedUser); // Devuelve el usuario actualizado
-  } catch (error) {
-    console.error("Error al actualizar el usuario:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    try {
+      // Busca y actualiza el usuario por ID
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        updatedUserData,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+
+      res.status(200).json(updatedUser); // Devuelve el usuario actualizado
+    } catch (error) {
+      console.error("Error al actualizar el usuario:", error);
+      res.status(500).json({ message: "Error interno del servidor" });
+    }
   }
-});
+);
 
 // router.put("/", upload.single("profileImg"), async (req, res) => {
 //   try {
