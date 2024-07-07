@@ -154,14 +154,15 @@ export default function MenteeDashboard() {
       <div className="bg-customGreen flex-grow">
         <div className="bg-white mx-8 my-8 p-8 rounded-3xl shadow-gray-600 shadow-xl h-[92%] w-944">
           <div className="flex items-center mb-6 shadow-sm">
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-3xl text-bold">
               {currentMentor ? "Actual Mentor" : "Match Requests"}
+
+              <p className="text-base text">
+                {currentMentor
+                  ? "View your current mentor"
+                  : "View and manage your match requests"}
+              </p>
             </h1>
-            <p className="text-base ml-2 text-gray-500">
-              {currentMentor
-                ? "View your current mentor"
-                : "View and manage your match requests"}
-            </p>
           </div>
           <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl overflow-auto">
             <table className="w-full">

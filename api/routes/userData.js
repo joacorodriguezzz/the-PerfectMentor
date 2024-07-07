@@ -136,6 +136,29 @@ router.put(
   }
 );
 
+router.put("/:menteeId/notes", verifyToken, async (req, res) => {
+  try {
+    const { menteeId } = req.params;
+    const { notes } = req.body;
+
+    // Buscar al mentee por ID y actualizar sus notas
+    const updatedUser = await User.findByIdAndUpdate(
+      menteeId,
+      { notes },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "Mentee not found" });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error("Error updating notes:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // router.put("/", upload.single("profileImg"), async (req, res) => {
 //   try {
 //     const userId = req.user.id; // Asegúrate de que la autenticación está configurada y user está en req

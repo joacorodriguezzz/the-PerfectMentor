@@ -66,8 +66,10 @@ const Users = ({ mentorId }) => {
       <div className="bg-customGreen flex-grow">
         <div className="bg-white mx-8 my-8 p-8 rounded-3xl shadow-gray-600 shadow-xl h-[92%] w-944">
           <div className="flex items-center mb-6 shadow-sm">
-            <h1 className="text-3xl font-bold">Users</h1>
-            <p className="text-base ml-2 text-gray-500">View all the users</p>
+            <h1 className="text-3xl text-bold">
+              Users
+              <p className="text-base text">View all the users</p>
+            </h1>
           </div>
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl overflow-auto">

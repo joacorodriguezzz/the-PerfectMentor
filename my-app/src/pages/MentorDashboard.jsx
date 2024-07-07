@@ -4,13 +4,11 @@ import SideBar from "../components/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHandshake,
-  faInfo,
   faTrash,
   faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Link } from "react-router-dom";
 
 export default function MentorDashboard() {
   const [mentees, setMentees] = useState([]);
@@ -19,6 +17,8 @@ export default function MentorDashboard() {
   const [meetingDate, setMeetingDate] = useState(new Date());
   const [description, setDescription] = useState("");
   const [menteeMeetings, setMenteeMeetings] = useState([]);
+  const [notes, setNotes] = useState("");
+  const [selectedMenteeNotes, setSelectedMenteeNotes] = useState(null);
 
   useEffect(() => {
     const fetchMentorData = async () => {
@@ -113,6 +113,37 @@ export default function MentorDashboard() {
     }
   };
 
+  const saveNotes = async () => {
+    try {
+      await axios.put(
+        `http://localhost:3001/api/userData/${selectedMenteeNotes._id}/notes`,
+        { notes },
+        { withCredentials: true }
+      );
+      alert("Notes saved successfully!");
+    } catch (error) {
+      console.error("Error saving notes:", error);
+      alert("Error saving notes");
+    }
+  };
+
+  const handleMenteeSelection = (mentee) => {
+    if (selectedMentee && selectedMentee._id === mentee._id) {
+      setSelectedMentee(null);
+    } else {
+      setSelectedMentee(mentee);
+    }
+  };
+
+  const handleNotesSelection = (mentee) => {
+    if (selectedMenteeNotes && selectedMenteeNotes._id === mentee._id) {
+      setSelectedMenteeNotes(null);
+    } else {
+      setSelectedMenteeNotes(mentee);
+      setNotes(mentee.notes || ""); // load existing notes if any
+    }
+  };
+
   return (
     <div className="flex bg-customGreen h-screen w-screen">
       <SideBar />
@@ -149,13 +180,25 @@ export default function MentorDashboard() {
                     <td className="px-4 py-3 text-center">{mentee.language}</td>
                     <td className="px-4 py-3 text-center">
                       <button
-                        className="w-7 h-7 rounded-full border-2 border-gray-800 ml-2"
-                        onClick={() => setSelectedMentee(mentee)}
+                        className={`w-7 h-7 rounded-full border-2 border-gray-800 ml-2 ${
+                          selectedMentee && selectedMentee._id === mentee._id
+                            ? "bg-blue-500"
+                            : ""
+                        }`}
+                        onClick={() => handleMenteeSelection(mentee)}
                       >
                         <FontAwesomeIcon icon={faHandshake} />
                       </button>
 
-                      <button className="w-7 h-7 rounded-full border-2 border-gray-800 ml-2">
+                      <button
+                        className={`w-7 h-7 rounded-full border-2 border-gray-800 ml-2 ${
+                          selectedMenteeNotes &&
+                          selectedMenteeNotes._id === mentee._id
+                            ? "bg-blue-500"
+                            : ""
+                        }`}
+                        onClick={() => handleNotesSelection(mentee)}
+                      >
                         <FontAwesomeIcon icon={faNoteSticky} />
                       </button>
                     </td>
@@ -203,9 +246,9 @@ export default function MentorDashboard() {
                         <span className="font-semibold">Time:</span>{" "}
                         {meeting.time}{" "}
                         <span className="font-semibold">Description:</span>{" "}
-                        {meeting.description}
+                        {meeting.description}{" "}
                         <button
-                          className="w-7 h-7 rounded-full border-2 border-gray-800 ml-2"
+                          className="bg-red-500 text-white px-2 py-1 rounded"
                           onClick={() => deleteMeeting(meeting._id)}
                         >
                           <FontAwesomeIcon icon={faTrash} />
@@ -214,6 +257,26 @@ export default function MentorDashboard() {
                     ))}
                   </ul>
                 </div>
+              </div>
+            )}
+            {selectedMenteeNotes && (
+              <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl">
+                <h2 className="text-2xl font-bold mb-4">
+                  Notes for {selectedMenteeNotes.userName}
+                </h2>
+                <textarea
+                  className="w-full p-2 border border-gray-300 rounded"
+                  rows="10"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Enter notes here"
+                ></textarea>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                  onClick={saveNotes}
+                >
+                  Save Notes
+                </button>
               </div>
             )}
           </div>
