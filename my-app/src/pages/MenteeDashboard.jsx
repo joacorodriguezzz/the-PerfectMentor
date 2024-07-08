@@ -3,7 +3,12 @@ import axios from "axios";
 import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfo, faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faInfo,
+  faXmark,
+  faCheck,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function MenteeDashboard() {
   const [matchRequests, setMatchRequests] = useState([]);
@@ -163,6 +168,21 @@ export default function MenteeDashboard() {
     }
   };
 
+  const deleteMeeting = async (meetingId) => {
+    try {
+      await axios.delete(`http://localhost:3001/api/meetings/${meetingId}`, {
+        withCredentials: true,
+      });
+
+      setMeetings(meetings.filter((meeting) => meeting._id !== meetingId));
+      alert("Meeting deleted successfully!");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting meeting:", error);
+      alert("Error deleting meeting");
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row bg-customGreen min-h-screen">
       <SideBar />
@@ -292,6 +312,12 @@ export default function MenteeDashboard() {
                     <span className="font-semibold">Time:</span> {meeting.time}{" "}
                     <span className="font-semibold">Description:</span>{" "}
                     {meeting.description}
+                    <button
+                      className="px-2 py-1 text-white bg-red-500 rounded"
+                      onClick={() => deleteMeeting(meeting._id)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
                   </li>
                 ))}
               </ul>
