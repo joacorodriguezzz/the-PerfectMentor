@@ -6,6 +6,7 @@ const userRoutes = require("./routes/users");
 const profileRoutes = require("./routes/profile");
 const matchRoutes = require("./routes/matchRoutes");
 const meetingRoutes = require("./routes/meetings");
+const toDo = require("./routes/toDoRoutes");
 // const mentorshipRequestRouter = require("./routes/mentorshipRequest");
 
 // const recentUsersRouter = require("./routes/recentUsers");
@@ -36,6 +37,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/userData", userData);
 app.use("/api/matchRequest", matchRoutes);
 app.use("/api/meetings", meetingRoutes);
+app.use("/api/toDo", toDo);
 // app.use("/api/recentUsersCount", recentUsersRouter);
 
 // Conexión a la base de datos

@@ -77,16 +77,32 @@ const acceptMatchRequest = async (req, res) => {
 
     console.log("Match request aceptada y eliminada:", matchRequest);
 
-    // Update mentee's mentorId with mentor's _id
+    // Obtener el mentee que aceptó la solicitud
+    const mentee = await User.findById(req.user.id);
+
+    // Actualizar mentorId del mentee
     await User.findByIdAndUpdate(
-      req.user.id, // assuming req.user.id holds mentee's _id
+      req.user.id,
       { mentorId: matchRequest.mentorId },
       { new: true }
     );
 
     console.log("Mentee actualizado con mentor:", req.user.id);
 
-    res.status(200).json(matchRequest);
+    // Obtener el mentor y actualizar su lista de mentees
+    const mentor = await User.findById(matchRequest.mentorId);
+
+    if (!mentor) {
+      return res.status(404).json({ error: "Mentor not found" });
+    }
+
+    // Añadir el mentee a la lista de mentees del mentor
+    mentor.mentees.push(mentee._id);
+    await mentor.save();
+
+    console.log("Mentor actualizado con mentee:", mentor);
+
+    res.status(200).json({ mentee, mentor });
   } catch (error) {
     console.error("Error accepting match request:", error);
     res.status(500).json({ error: "Internal Server Error" });

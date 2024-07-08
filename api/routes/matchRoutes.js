@@ -10,6 +10,7 @@ const {
 const MatchRequest = require("../models/matchRequest");
 const User = require("../models/user");
 const { getUserById } = require("../controllers/userController");
+const Meeting = require("../models/meetings"); // Importa el modelo de Meeting
 
 // Ruta para crear una solicitud de match
 router.post("/", verifyToken, createMatchRequest);
@@ -41,25 +42,54 @@ router.get("/:menteeId", async (req, res) => {
   }
 });
 
+// Ejemplo de cómo podrías manejar el deshacer el match en tu backend
 router.put("/undoMatch/:menteeId", async (req, res) => {
-  const { menteeId } = req.params;
-
   try {
-    // Verificar si el mentee existe
+    const { menteeId } = req.params;
+    console.log("Undoing match for menteeId:", menteeId);
+
+    // Buscar al mentee
     const mentee = await User.findById(menteeId);
     if (!mentee) {
-      return res.status(404).json({ message: "Mentee no encontrado" });
+      console.log("Mentee not found");
+      return res.status(404).json({ message: "Mentee not found" });
     }
 
-    // Deshacer el match asignando null al campo mentorId
+    // Eliminar las notas del mentee
+    console.log("Deleting notes for mentee:", menteeId);
+    mentee.notes = [];
+    await mentee.save();
+
+    // Eliminar las reuniones asignadas del mentee
+    console.log("Deleting meetings for mentee:", menteeId);
+    const deleteMeetingsResult = await Meeting.deleteMany({
+      menteeId: menteeId,
+    });
+    console.log("Meetings delete result:", deleteMeetingsResult);
+
+    // Obtener el mentor del mentee
+    const mentorId = mentee.mentorId;
+    if (mentorId) {
+      const mentor = await User.findById(mentorId);
+      if (mentor) {
+        console.log("Removing mentee from mentor's list:", menteeId);
+        mentor.mentees = mentor.mentees.filter(
+          (id) => id.toString() !== menteeId
+        );
+        await mentor.save();
+      }
+    }
+
+    // Actualizar el mentee para eliminar el mentorId
+    console.log("Clearing mentorId for mentee:", menteeId);
     mentee.mentorId = null;
     await mentee.save();
 
-    // Responder con éxito
-    res.status(200).json({ message: "Match deshecho correctamente" });
+    console.log("Match undone successfully for mentee:", menteeId);
+    res.status(200).json({ message: "Match undone successfully" });
   } catch (error) {
-    console.error("Error al deshacer el match:", error);
-    res.status(500).json({ message: "Error interno al deshacer el match" });
+    console.error("Error undoing match:", error);
+    res.status(500).json({ message: "Failed to undo match" });
   }
 });
 

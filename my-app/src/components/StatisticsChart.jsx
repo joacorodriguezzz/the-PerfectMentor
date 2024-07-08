@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import axios from "axios";
+import "./chart.css"; // Importa el archivo CSS
 
 const Chart = () => {
   const chartRef = useRef(null);
@@ -47,12 +48,19 @@ const Chart = () => {
 
     chartInstance.setOption(option);
 
+    const resizeChart = () => {
+      chartInstance.resize();
+    };
+
+    window.addEventListener("resize", resizeChart);
+
     return () => {
       chartInstance.dispose();
+      window.removeEventListener("resize", resizeChart);
     };
   }, [userCountByDay]);
 
-  return <div ref={chartRef} style={{ width: "100%", height: "400px" }}></div>;
+  return <div className="chart-container" ref={chartRef}></div>;
 };
 
 export default Chart;

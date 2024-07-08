@@ -45,101 +45,101 @@ export default function InfoMent() {
   }, []);
 
   return (
-    <div className="flex bg-customGreen h-screen">
+    <div className="flex flex-col bg-customGreen min-h-screen md:flex-row">
       <SideBar />
-      <div className="bg-customGreen flex-grow relative">
-        <div className="bg-white mx-8 my-8 p-8 rounded-3xl shadow-gray-600 shadow-xl h-[92%] w-944">
-          <h1 className="flex items-center justify-center text-5xl absolute top-28 left-[50%] transform -translate-x-1/2 text-gray-800">
+      <div className="flex-grow p-4 bg-customGreen md:p-8">
+        <div className="p-4 mx-4 my-4 bg-white rounded-3xl shadow-xl md:mx-8 md:my-8 md:p-8 md:h-[92%]">
+          <h1 className="mb-8 text-3xl text-center text-gray-800 md:mt-20 md:text-5xl">
             Profile
           </h1>
-          <div className="bg-white mx-auto mt-24 p-8 rounded-3xl h-[85%] shadow-2xl overflow-auto w-1/2 pt-[15%]">
+          <div className="p-2 mx-2 my-4 bg-white rounded-3xl shadow-2xl md:mx-8 md:my-8 md:p-4 md:h-[78%] overflow-auto">
             {currentMentor && (
               <div>
-                <div className="flex justify-between">
+                <div className="flex flex-col md:flex-row md:justify-between">
                   <div>
-                    <p className="text-lg mb-2 pl-4 text-gray-400">Name</p>
+                    <p className="pl-4 mb-2 text-lg text-gray-400">Name</p>
                     <input
                       type="text"
-                      className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                      className="w-full border-b border-gray-400 focus:outline-none focus:border-gray-500"
                       value={currentMentor.userName}
                       readOnly
                     />
                   </div>
                 </div>
-                <hr className="border-gray-400 mb-2" />
-                <div className="flex justify-between">
+                <hr className="mb-2 border-gray-400" />
+                <div className="flex flex-col md:flex-row md:justify-between">
                   <div>
-                    <p className="text-lg font-semibold mb-2 pl-4 text-gray-400">
+                    <p className="pl-4 mb-2 text-lg font-semibold text-gray-400">
                       Email
                     </p>
                     <input
                       type="email"
-                      className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                      className="w-full border-b border-gray-400 focus:outline-none focus:border-gray-500"
                       value={currentMentor.email}
                       readOnly
                     />
                   </div>
                 </div>
-                <hr className="border-gray-400 mb-2" />
-                <div className="flex justify-between">
+                <hr className="mb-2 border-gray-400" />
+                <div className="flex flex-col md:flex-row md:justify-between">
                   <div>
-                    <p className="text-lg font-semibold mb-2 pl-4 text-gray-400">
+                    <p className="pl-4 mb-2 text-lg font-semibold text-gray-400">
                       Role
                     </p>
                     <input
                       type="text"
-                      className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                      className="w-full border-b border-gray-400 focus:outline-none focus:border-gray-500"
                       value={currentMentor.role}
                       readOnly
                     />
-                    <p className="text-lg font-semibold mb-2 pl-4 text-gray-400">
+                    <p className="pl-4 mb-2 text-lg font-semibold text-gray-400">
                       Skill
                     </p>
                     <input
                       type="text"
-                      className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                      className="w-full border-b border-gray-400 focus:outline-none focus:border-gray-500"
                       value={currentMentor.skill}
                       readOnly
                     />
                   </div>
                 </div>
-                <hr className="border-gray-400 mb-2" />
-                <div className="flex justify-between">
+                <hr className="mb-2 border-gray-400" />
+                <div className="flex flex-col md:flex-row md:justify-between">
                   <div>
-                    <p className="text-lg font-semibold mb-2 pl-4 text-gray-400">
+                    <p className="pl-4 mb-2 text-lg font-semibold text-gray-400">
                       Age
                     </p>
                     <input
                       type="number"
-                      className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                      className="w-full border-b border-gray-400 focus:outline-none focus:border-gray-500"
                       value={currentMentor.age}
                       readOnly
                     />
                   </div>
                 </div>
-                <hr className="border-gray-400 mb-2" />
-                <div className="flex justify-between">
+                <hr className="mb-2 border-gray-400" />
+                <div className="flex flex-col md:flex-row md:justify-between">
                   <div>
-                    <p className="text-lg font-semibold mb-2 pl-4 text-gray-400">
+                    <p className="pl-4 mb-2 text-lg font-semibold text-gray-400">
                       Country
                     </p>
                     <input
                       type="text"
-                      className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                      className="w-full border-b border-gray-400 focus:outline-none focus:border-gray-500"
                       value={currentMentor.country}
                       readOnly
                     />
                   </div>
                 </div>
-                <hr className="border-gray-400 mb-2" />
-                <div className="flex justify-between">
+                <hr className="mb-2 border-gray-400" />
+                <div className="flex flex-col md:flex-row md:justify-between">
                   <div>
-                    <p className="text-lg font-semibold mb-2 pl-4 text-gray-400">
+                    <p className="pl-4 mb-2 text-lg font-semibold text-gray-400">
                       Language
                     </p>
                     <input
                       type="text"
-                      className="border-b border-gray-400 focus:outline-none focus:border-gray-500"
+                      className="w-full border-b border-gray-400 focus:outline-none focus:border-gray-500"
                       value={currentMentor.language}
                       readOnly
                     />

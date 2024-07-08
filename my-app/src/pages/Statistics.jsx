@@ -56,21 +56,23 @@ export default function Statistics() {
   }, []);
 
   return (
-    <div className="flex bg-customGreen h-screen">
+    <div className="flex flex-col md:flex-row bg-customGreen min-h-screen">
       <SideBar />
-      <div className="bg-customGreen flex-grow">
-        <div className="bg-white mx-8 my-8 p-8 rounded-3xl shadow-gray-600 shadow-xl h-[92%] w-944">
-          <div className="flex items-center mb-6 shadow-sm">
-            <h1 className="text-3xl text-bold">
+      <div className="bg-customGreen flex-grow p-4 md:p-8">
+        <div className="bg-white mx-4 md:mx-8 my-4 md:my-8 p-4 md:p-8 rounded-3xl shadow-gray-600 shadow-xl h-full md:h-[92%] w-full md:w-auto">
+          <div className="flex flex-col items-start mb-6 shadow-sm">
+            <h1 className="text-2xl md:text-3xl font-bold">
               Statistics
-              <p className="text-base text">
+              <p className="text-sm md:text-base">
                 Check all the activity of your page
               </p>
             </h1>
           </div>
-          <div className="flex">
-            <div className="bg-gray-200 my-2 p-8 rounded-3xl w-[50%] shadow-2xl text-gray-900 relative text-bold h-48">
-              <h1 className="text-3xl font-bold mb-2">Total of users</h1>
+          <div className="flex flex-col md:flex-row">
+            <div className="bg-gray-200 my-2 p-4 md:p-8 rounded-3xl w-full md:w-[50%] shadow-2xl text-gray-900 relative font-bold h-48">
+              <h1 className="text-2xl md:text-3xl font-bold mb-2">
+                Total of users
+              </h1>
               <hr className="border-dashed border-gray-400 mb-2" />
               <div className="text-lg">
                 <div className="border-b border-gray-400 py-2 flex justify-between items-center h-8">
@@ -84,8 +86,8 @@ export default function Statistics() {
                 </div>
               </div>
             </div>
-            <div className="bg-gray-200 mx-8 my-2 p-8 rounded-3xl w-[50%] shadow-2xl text-gray-900 relative text-bold h-48">
-              <h1 className="text-3xl font-bold mb-2">New Users</h1>
+            <div className="bg-gray-200 mx-0 md:mx-8 my-2 p-4 md:p-8 rounded-3xl w-full md:w-[50%] shadow-2xl text-gray-900 relative font-bold h-48">
+              <h1 className="text-2xl md:text-3xl font-bold mb-2">New Users</h1>
               <hr className="border-dashed border-gray-400 mb-2" />
               <div className="text-lg">
                 <div className="border-b border-gray-400 py-2 flex justify-between items-center h-8">

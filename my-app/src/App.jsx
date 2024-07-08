@@ -10,7 +10,7 @@ import Profile from "./pages/Profile";
 import Stadistics from "./pages/Statistics";
 import MentorDashboard from "./pages/MentorDashboard";
 import MenteeDashboard from "./pages/MenteeDashboard";
-import GoalsPage from "./pages/Goals";
+import GoalsPage from "./pages/ToDo";
 import MentorInfo from "./pages/InfoMent";
 import { AuthProvider } from "./components/AuthContext";
 
@@ -29,7 +29,7 @@ function App() {
             <Route path="/mentorDashboard" element={<MentorDashboard />} />
             <Route path="/infoMent" element={<MentorInfo />} />
             <Route path="/menteeDashboard" element={<MenteeDashboard />} />
-            <Route path="/goals" element={<GoalsPage />} />
+            <Route path="/objectives" element={<GoalsPage />} />
           </Routes>
         </AuthProvider>
       </Router>

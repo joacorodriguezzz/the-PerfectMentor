@@ -145,27 +145,35 @@ export default function MentorDashboard() {
   };
 
   return (
-    <div className="flex bg-customGreen h-screen w-screen">
+    <div className="flex flex-col min-h-screen w-full bg-customGreen md:flex-row md:h-screen">
       <SideBar />
-      <div className="bg-customGreen flex-grow">
-        <div className="bg-white mx-8 my-8 p-8 rounded-3xl shadow-gray-600 shadow-xl h-[92%] w-944">
-          <div className="flex items-center mb-6 shadow-sm">
-            <h1 className="text-3xl font-bold">Mentees</h1>
-            <p className="text-base ml-2 text-gray-500">
+      <div className="flex-grow p-4 bg-customGreen md:p-8">
+        <div className="p-4 mx-2 my-4 bg-white rounded-3xl shadow-xl md:mx-8 md:my-8 md:p-8 md:h-[92%]">
+          <div className="flex flex-col items-start mb-6 shadow-sm md:flex-row md:items-center">
+            <h1 className="text-2xl font-bold md:text-3xl">Mentees</h1>
+            <p className="mt-2 text-base text-gray-500 md:ml-2 md:mt-0">
               View and manage your mentees
             </p>
           </div>
-          <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl overflow-auto">
+          <div className="p-4 my-4 bg-white rounded-3xl shadow-2xl md:my-8 overflow-auto">
             <table className="w-full">
               <thead>
                 <tr className="text-gray-400 text-sm">
-                  <th className="px-4 py-3 border-b border-gray-500">Name</th>
-                  <th className="px-4 py-3 border-b border-gray-500">Email</th>
-                  <th className="px-4 py-3 border-b border-gray-500">Skill</th>
-                  <th className="px-4 py-3 border-b border-gray-500">
+                  <th className="px-2 py-2 border-b border-gray-500 md:px-4 md:py-3">
+                    Name
+                  </th>
+                  <th className="px-2 py-2 border-b border-gray-500 md:px-4 md:py-3">
+                    Email
+                  </th>
+                  <th className="px-2 py-2 border-b border-gray-500 md:px-4 md:py-3">
+                    Skill
+                  </th>
+                  <th className="px-2 py-2 border-b border-gray-500 md:px-4 md:py-3">
                     Language
                   </th>
-                  <th className="px-4 py-3 border-b border-gray-500">Action</th>
+                  <th className="px-2 py-2 border-b border-gray-500 md:px-4 md:py-3">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -174,13 +182,21 @@ export default function MentorDashboard() {
                     key={mentee._id}
                     className="bg-green-200 bg-opacity-80 border-b border-white shadow-sm"
                   >
-                    <td className="px-4 py-3 text-center">{mentee.userName}</td>
-                    <td className="px-4 py-3 text-center">{mentee.email}</td>
-                    <td className="px-4 py-3 text-center">{mentee.skill}</td>
-                    <td className="px-4 py-3 text-center">{mentee.language}</td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-2 py-2 text-center md:px-4 md:py-3">
+                      {mentee.userName}
+                    </td>
+                    <td className="px-2 py-2 text-center md:px-4 md:py-3">
+                      {mentee.email}
+                    </td>
+                    <td className="px-2 py-2 text-center md:px-4 md:py-3">
+                      {mentee.skill}
+                    </td>
+                    <td className="px-2 py-2 text-center md:px-4 md:py-3">
+                      {mentee.language}
+                    </td>
+                    <td className="px-2 py-2 text-center md:px-4 md:py-3">
                       <button
-                        className={`w-7 h-7 rounded-full border-2 border-gray-800 ml-2 ${
+                        className={`w-7 h-7 rounded-full border-2 border-gray-800 ml-1 md:ml-2 ${
                           selectedMentee && selectedMentee._id === mentee._id
                             ? "bg-blue-500"
                             : ""
@@ -191,7 +207,7 @@ export default function MentorDashboard() {
                       </button>
 
                       <button
-                        className={`w-7 h-7 rounded-full border-2 border-gray-800 ml-2 ${
+                        className={`w-7 h-7 rounded-full border-2 border-gray-800 ml-1 md:ml-2 ${
                           selectedMenteeNotes &&
                           selectedMenteeNotes._id === mentee._id
                             ? "bg-blue-500"
@@ -207,8 +223,8 @@ export default function MentorDashboard() {
               </tbody>
             </table>
             {selectedMentee && (
-              <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl">
-                <h2 className="text-2xl font-bold mb-4">
+              <div className="p-4 my-4 bg-white rounded-3xl shadow-2xl md:my-8">
+                <h2 className="mb-4 text-2xl font-bold">
                   Schedule Meeting with {selectedMentee.userName}
                 </h2>
                 <div className="mb-4">
@@ -217,6 +233,7 @@ export default function MentorDashboard() {
                     onChange={(date) => setMeetingDate(date)}
                     showTimeSelect
                     dateFormat="Pp"
+                    className="w-full p-2 border border-gray-300 rounded"
                   />
                 </div>
                 <div className="mb-4">
@@ -229,13 +246,13 @@ export default function MentorDashboard() {
                   ></textarea>
                 </div>
                 <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  className="px-4 py-2 text-white bg-blue-500 rounded"
                   onClick={createMeeting}
                 >
                   Schedule Meeting
                 </button>
                 <div className="mt-6">
-                  <h3 className="text-xl font-bold mb-2">
+                  <h3 className="mb-2 text-xl font-bold">
                     Scheduled Meetings with {selectedMentee.userName}
                   </h3>
                   <ul>
@@ -248,7 +265,7 @@ export default function MentorDashboard() {
                         <span className="font-semibold">Description:</span>{" "}
                         {meeting.description}{" "}
                         <button
-                          className="bg-red-500 text-white px-2 py-1 rounded"
+                          className="px-2 py-1 text-white bg-red-500 rounded"
                           onClick={() => deleteMeeting(meeting._id)}
                         >
                           <FontAwesomeIcon icon={faTrash} />
@@ -260,8 +277,8 @@ export default function MentorDashboard() {
               </div>
             )}
             {selectedMenteeNotes && (
-              <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl">
-                <h2 className="text-2xl font-bold mb-4">
+              <div className="p-4 my-4 bg-white rounded-3xl shadow-2xl md:my-8">
+                <h2 className="mb-4 text-2xl font-bold">
                   Notes for {selectedMenteeNotes.userName}
                 </h2>
                 <textarea
@@ -272,7 +289,7 @@ export default function MentorDashboard() {
                   placeholder="Enter notes here"
                 ></textarea>
                 <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                  className="px-4 py-2 mt-4 text-white bg-blue-500 rounded"
                   onClick={saveNotes}
                 >
                   Save Notes

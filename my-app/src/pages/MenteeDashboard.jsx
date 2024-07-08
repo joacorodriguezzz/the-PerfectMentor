@@ -10,6 +10,7 @@ export default function MenteeDashboard() {
   const [loggedUser, setLoggedUser] = useState(null);
   const [currentMentor, setCurrentMentor] = useState(null);
   const [meetings, setMeetings] = useState([]);
+  const [notes, setNotes] = useState("");
 
   useEffect(() => {
     const fetchMatchRequests = async () => {
@@ -82,21 +83,23 @@ export default function MenteeDashboard() {
       );
 
       // Actualizar el estado para mostrar al mentor asignado
-      const mentorResponse = await axios.get(
-        `http://localhost:3001/api/users/${loggedUser.mentorId}`,
-        {
-          withCredentials: true,
-        }
-      );
-      setCurrentMentor(mentorResponse.data);
+      if (loggedUser.mentorId) {
+        const mentorResponse = await axios.get(
+          `http://localhost:3001/api/users/${loggedUser.mentorId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        setCurrentMentor(mentorResponse.data);
+      } else {
+        setCurrentMentor(null); // No hay mentor asignado
+      }
 
-      // Refrescar la página automáticamente
+      window.location.reload(); // Opcional según tus requerimientos
+      // Refrescar la página automáticamente o manejar de otra forma según tu flujo
     } catch (error) {
-      alert("Solicitud de mentoria aceptada exitosamente");
-      window.location.reload();
-      setMatchRequests(
-        matchRequests.filter((request) => request._id !== requestId)
-      );
+      console.error("Error accepting match request:", error);
+      alert("Error al aceptar la solicitud de mentoria");
     }
   };
 
@@ -125,11 +128,22 @@ export default function MenteeDashboard() {
   const undoMatch = async () => {
     try {
       // Llamar al endpoint para deshacer el match
-      await axios.put(
+      const response = await axios.put(
         `http://localhost:3001/api/matchRequest/undoMatch/${loggedUser._id}`,
         {},
         { withCredentials: true }
       );
+
+      // Obtener el ID de la reunión desde la respuesta del backend
+      const meetingId = response.data.meetingId;
+
+      // Si se proporciona un ID de reunión, eliminar la reunión correspondiente
+      if (meetingId) {
+        await axios.delete(`http://localhost:3001/api/meetings/${meetingId}`, {
+          withCredentials: true,
+        });
+        console.log("Meeting deleted successfully");
+      }
 
       // Actualizar el estado eliminando el mentor asignado
       setCurrentMentor(null);
@@ -141,7 +155,8 @@ export default function MenteeDashboard() {
       }));
 
       // Mostrar una alerta o mensaje de éxito
-      alert("Match deshecho excitosamente");
+      alert("Match deshecho exitosamente");
+      window.location.reload();
     } catch (error) {
       console.error("Error undoing match:", error);
       alert("Error al deshacer el match");
@@ -149,22 +164,21 @@ export default function MenteeDashboard() {
   };
 
   return (
-    <div className="flex bg-customGreen h-screen w-screen">
+    <div className="flex flex-col md:flex-row bg-customGreen min-h-screen">
       <SideBar />
-      <div className="bg-customGreen flex-grow">
-        <div className="bg-white mx-8 my-8 p-8 rounded-3xl shadow-gray-600 shadow-xl h-[92%] w-944">
-          <div className="flex items-center mb-6 shadow-sm">
-            <h1 className="text-3xl text-bold">
+      <div className="bg-customGreen flex-grow p-4 md:p-8">
+        <div className="bg-white mx-4 md:mx-8 my-4 md:my-8 p-4 md:p-8 rounded-3xl shadow-gray-600 shadow-xl h-full md:h-[92%] w-full md:w-auto">
+          <div className="flex flex-col  mb-6 shadow-sm">
+            <h1 className="text-xl md:text-3xl font-bold">
               {currentMentor ? "Actual Mentor" : "Match Requests"}
-
-              <p className="text-base text">
-                {currentMentor
-                  ? "View your current mentor"
-                  : "View and manage your match requests"}
-              </p>
             </h1>
+            <p className="text-sm md:text-base ">
+              {currentMentor
+                ? "View your current mentor"
+                : "View and manage your match requests"}
+            </p>
           </div>
-          <div className="bg-white mx-8 my-8 p-4 rounded-3xl h-[78%] shadow-2xl overflow-auto">
+          <div className="bg-white mx-2 md:mx-8 my-4 md:my-8 p-2 md:p-4 rounded-3xl h-[70%] md:h-[78%] shadow-2xl overflow-auto">
             <table className="w-full">
               <thead>
                 <tr className="text-gray-400 text-sm">
@@ -267,7 +281,7 @@ export default function MenteeDashboard() {
                 )}
               </tbody>
             </table>
-            <div className="mt-6 bg-slate-200 rounded-xl">
+            <div className="mt-6 bg-slate-200 rounded-xl p-4">
               <h3 className="text-xl font-bold mb-2 text-center">
                 Scheduled Meetings with your mentor
               </h3>

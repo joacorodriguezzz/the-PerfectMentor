@@ -40,9 +40,14 @@ const userSchema = mongoose.Schema({
     required: false,
   },
   notes: {
-    type: String,
+    type: [String],
     required: false,
   },
+  toDo: {
+    type: [String],
+    required: false,
+  },
+
   mentees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   mentorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Solo para mentees
   createdAt: {

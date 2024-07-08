@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  faIdBadge,
-  faChartBar,
-  faFileAlt,
   faUsersLine,
+  faChartBar,
+  faIdBadge,
   faSignOutAlt,
-  faSitemap,
-  faBullseye,
+  faBars,
   faFontAwesome,
-  faCircleInfo, // Nuevo icono para Log Out
+  faBullseye,
+  faSitemap,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import miImagen from "./img/thePerfectMentor.png";
@@ -21,6 +20,7 @@ export default function SideBar() {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const [userRole, setUserRole] = useState("");
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     const fetchUserRole = async () => {
@@ -60,67 +60,76 @@ export default function SideBar() {
   };
 
   return (
-    <div className="bg-customGreen text-gray-500 w-[13%] pb-10">
-      <div className="p-4">
+    <div className="md:bg-customGreen md:text-gray-500 md:w-[13%] md:pb-10">
+      <div className="p-4 flex justify-between items-center md:block">
         {/* Sidebar Header */}
-        <img src={miImagen} alt="Sidebar Header" />
+        <img src={miImagen} alt="Sidebar Header" className="md:block hidden" />
+        <button
+          className="md:hidden text-gray-500"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          <FontAwesomeIcon icon={faBars} size="lg" />
+        </button>
       </div>
-      <ul className="py-4">
-        <Link to="/users">
-          <li className="px-4 py-6 cursor-pointer flex items-center hover:bg-gray-800 hover:text-customGreen hover:rounded-3xl">
-            <FontAwesomeIcon icon={faUsersLine} className="mr-2" />
-            Users
-          </li>
-        </Link>
-        <Link to="/statistics">
-          <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
-            <FontAwesomeIcon icon={faChartBar} className="mr-2" />
-            Stadistics
-          </li>
-        </Link>
-        <Link to="/profile">
-          <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
-            <FontAwesomeIcon icon={faIdBadge} className="mr-2" />
-            Profile
-          </li>
-        </Link>
-        {/* Mostrar opciones adicionales según el rol del usuario */}
-        {userRole === "mentee" && (
-          <>
-            <Link to="/menteeDashboard">
-              <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
-                <FontAwesomeIcon icon={faFontAwesome} className="mr-2" />
-                Mentees Dashboard
-              </li>
-            </Link>
-            <Link to="/goals">
-              <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
-                <FontAwesomeIcon icon={faBullseye} className="mr-2" />
-                Goals
-              </li>
-            </Link>
-          </>
-        )}
-        {userRole === "mentor" && (
-          <Link to="/mentorDashboard">
-            <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
-              <FontAwesomeIcon icon={faSitemap} className="mr-2" />
-              Mentor Dashboard
+      <div
+        className={`md:block ${
+          showSidebar ? "block" : "hidden"
+        } md:w-auto w-full bg-customGreen text-gray-500`}
+      >
+        <ul className="py-4">
+          <Link to="/users">
+            <li className="px-4 py-6 cursor-pointer flex items-center hover:bg-gray-800 hover:text-customGreen hover:rounded-3xl">
+              <FontAwesomeIcon icon={faUsersLine} className="mr-2" />
+              Users
             </li>
           </Link>
-        )}
-        <div>
-          <li
-            onClick={handleLogout}
-            className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen
-            cursor-pointer flex items-center hover:rounded-3xl"
-          >
-            <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-            Log Out
-          </li>
-        </div>
-      </ul>
-      {/* Botón de Log Out */}
+          <Link to="/statistics">
+            <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
+              <FontAwesomeIcon icon={faChartBar} className="mr-2" />
+              Stadistics
+            </li>
+          </Link>
+          <Link to="/profile">
+            <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
+              <FontAwesomeIcon icon={faIdBadge} className="mr-2" />
+              Profile
+            </li>
+          </Link>
+          {userRole === "mentee" && (
+            <>
+              <Link to="/menteeDashboard">
+                <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
+                  <FontAwesomeIcon icon={faFontAwesome} className="mr-2" />
+                  Mentees Dashboard
+                </li>
+              </Link>
+              <Link to="/objectives">
+                <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
+                  <FontAwesomeIcon icon={faBullseye} className="mr-2" />
+                  Objectives
+                </li>
+              </Link>
+            </>
+          )}
+          {userRole === "mentor" && (
+            <Link to="/mentorDashboard">
+              <li className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl">
+                <FontAwesomeIcon icon={faSitemap} className="mr-2" />
+                Mentor Dashboard
+              </li>
+            </Link>
+          )}
+          <div>
+            <li
+              onClick={handleLogout}
+              className="px-4 py-6 hover:bg-gray-800 hover:text-customGreen cursor-pointer flex items-center hover:rounded-3xl"
+            >
+              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+              Log Out
+            </li>
+          </div>
+        </ul>
+      </div>
     </div>
   );
 }
