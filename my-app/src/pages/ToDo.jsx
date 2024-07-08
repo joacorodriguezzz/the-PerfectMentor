@@ -27,7 +27,7 @@ const ToDoList = () => {
       const response = await axios.get("http://localhost:3001/api/userData", {
         withCredentials: true,
       });
-      setUserId(response.data._id); // Asegúrate de obtener el ID del usuario correctamente
+      setUserId(response.data._id);
     } catch (error) {
       console.error("Error fetching user ID:", error);
     }

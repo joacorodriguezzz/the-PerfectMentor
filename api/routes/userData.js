@@ -40,26 +40,6 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
-// Ruta para actualizar el perfil del usuario
-// router.put("/", verifyToken, async (req, res) => {
-//   try {
-//     const userId = req.user.id;
-//     const updates = req.body;
-//     const updatedUser = await User.findByIdAndUpdate(userId, updates, {
-//       new: true,
-//     }).select("-password");
-
-//     if (!updatedUser) {
-//       return res.status(404).json({ error: "Usuario no encontrado" });
-//     }
-
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     console.error("Error updating user profile:", error);
-//     res.status(500).json({ error: "Error interno del servidor" });
-//   }
-// });
-
 router.post("/", verifyToken, (req, res) => {
   const user = {
     id: req.user.id,

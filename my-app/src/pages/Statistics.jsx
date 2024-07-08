@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  faUsers,
-  faChartBar,
-  faFileAlt,
-  faUser,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+
 import SideBar from "../components/SideBar";
 import axios from "axios";
 import Chart from "../components/StatisticsChart";

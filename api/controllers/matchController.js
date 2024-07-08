@@ -31,35 +31,6 @@ const createMatchRequest = async (req, res) => {
   }
 };
 
-// const createMatchRequest = async (req, res) => {
-//   console.log("Creando solicitud de match...");
-
-//   // Lógica para crear la solicitud de match
-//   try {
-//     console.log("Mentor ID recibido:", req.body.menteeId);
-//     console.log("Mentee ID obtenido de token:", req.user.id); // asumiendo que req.user contiene la información del usuario autenticado
-
-//     // Ejemplo de lógica para crear una solicitud de match
-//     const newMatchRequest = new MatchRequest({
-//       menteeId: req.body.menteeId,
-//       mentorId: req.user.id,
-//       status: 'pending',
-//     });
-
-//     console.log("Solicitud de match creada:", newMatchRequest);
-
-//     await newMatchRequest.save();
-//     console.log("Solicitud de match guardada en la base de datos.");
-
-//     res.status(201).json(newMatchRequest);
-//   } catch (error) {
-//     console.error("Error creating match request:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
-
-// module.exports = createMatchRequest;
-
 // Controlador para aceptar una solicitud de match
 const acceptMatchRequest = async (req, res) => {
   console.log("Recibiendo solicitud para aceptar match...");
